@@ -1,0 +1,2 @@
+-- Placeholder seed file for future Supabase local development.
+-- Phase 1 intentionally does not define schema, auth, policies, or seed data.

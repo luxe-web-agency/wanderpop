@@ -1,0 +1,42 @@
+---
+description: WanderPop project rules
+alwaysApply: true
+---
+
+# WanderPop Project Rules
+
+WanderPop is a native-feeling iOS and Android travel trivia app. Users complete a daily city quiz, receive immediate feedback and fun facts, collect City Stamps or Perfect Stamps, and view their seasonal passport.
+
+## Product Constraints
+
+- Build a true native-feeling mobile app with Expo and React Native, not a webview shell.
+- Target iOS and Android phones for MVP.
+- English-first; do not build multilingual systems unless explicitly requested.
+- Same daily city for everyone, based on the user's local date.
+- Daily reset is the user's local midnight.
+- No retries. Answers are locked after submission.
+- Users can resume unfinished quizzes.
+- City Stamp is awarded on quiz completion.
+- Perfect Stamp is awarded only for 100%.
+- Missed cities appear as grey silhouettes.
+- Guest users can continue playing indefinitely.
+- Guest progress must merge into a signed-in account later.
+
+## Technical Constraints
+
+- Use TypeScript.
+- Use Expo / React Native for mobile.
+- Use Expo Router for file-based mobile routes.
+- Use Supabase for backend, database, and auth in later phases.
+- Use Firebase Analytics in later phases.
+- Keep backend authoritative for scoring, stamps, streaks, and daily challenge logic.
+- Do not let the client directly award stamps, calculate final quiz rewards, or update streaks.
+- Keep content backend-controlled and CSV-imported for MVP.
+- Avoid unnecessary dependencies.
+- Prefer small, feature-oriented files.
+
+## Phase Discipline
+
+- Keep work inside the requested phase.
+- Do not implement auth, Supabase logic, Firebase Analytics, real quiz gameplay, or content import unless that phase explicitly asks for it.
+- List files before large edits and run TypeScript checks after implementation.
