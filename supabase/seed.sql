@@ -1,2 +1,7 @@
--- Placeholder seed file for future Supabase local development.
--- Phase 1 intentionally does not define schema, auth, policies, or seed data.
+-- WanderPop content is managed from CSV files in /content.
+-- After applying migrations, import local content with:
+--
+--   npm run import -- --dry-run
+--   SUPABASE_URL=... SUPABASE_SERVICE_ROLE_KEY=... npm run import
+--
+-- Keep this file minimal so CSV remains the source of truth for MVP content.

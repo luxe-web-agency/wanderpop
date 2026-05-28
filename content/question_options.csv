@@ -1,1 +1,141 @@
 city_slug,challenge_date,question_order,option_order,option_text,is_correct
+seoul,2026-07-01,1,1,"Gyeongbokgung Palace",true
+seoul,2026-07-01,1,2,"Changdeokgung Palace",false
+seoul,2026-07-01,1,3,"Deoksugung Palace",false
+seoul,2026-07-01,1,4,"Changgyeonggung Palace",false
+seoul,2026-07-01,2,1,"Kimchi",true
+seoul,2026-07-01,2,2,"Mochi",false
+seoul,2026-07-01,2,3,"Satay",false
+seoul,2026-07-01,2,4,"Baklava",false
+seoul,2026-07-01,3,1,"Han River",true
+seoul,2026-07-01,3,2,"Mekong River",false
+seoul,2026-07-01,3,3,"Sumida River",false
+seoul,2026-07-01,3,4,"Pearl River",false
+seoul,2026-07-01,4,1,"Bukchon",true
+seoul,2026-07-01,4,2,"Gangnam",false
+seoul,2026-07-01,4,3,"Hongdae",false
+seoul,2026-07-01,4,4,"Yeouido",false
+seoul,2026-07-01,5,1,"N Seoul Tower",true
+seoul,2026-07-01,5,2,"Tokyo Skytree",false
+seoul,2026-07-01,5,3,"Taipei 101",false
+seoul,2026-07-01,5,4,"Lotte World Mall",false
+seoul,2026-07-01,6,1,"Cheonggyecheon",true
+seoul,2026-07-01,6,2,"Itaewon",false
+seoul,2026-07-01,6,3,"Bukhansan",false
+seoul,2026-07-01,6,4,"Dongdaemun",false
+seoul,2026-07-01,7,1,"Namdaemun",true
+seoul,2026-07-01,7,2,"Gwanghwamun",false
+seoul,2026-07-01,7,3,"Heunginjimun",false
+seoul,2026-07-01,7,4,"Sukjeongmun",false
+kyoto,2026-07-02,1,1,"Fushimi Inari Taisha",true
+kyoto,2026-07-02,1,2,"Meiji Shrine",false
+kyoto,2026-07-02,1,3,"Itsukushima Shrine",false
+kyoto,2026-07-02,1,4,"Toshogu Shrine",false
+kyoto,2026-07-02,2,1,"Kimono",true
+kyoto,2026-07-02,2,2,"Hanbok",false
+kyoto,2026-07-02,2,3,"Sari",false
+kyoto,2026-07-02,2,4,"Poncho",false
+kyoto,2026-07-02,3,1,"Gion",true
+kyoto,2026-07-02,3,2,"Shinjuku",false
+kyoto,2026-07-02,3,3,"Dotonbori",false
+kyoto,2026-07-02,3,4,"Akihabara",false
+kyoto,2026-07-02,4,1,"Kinkaku-ji",true
+kyoto,2026-07-02,4,2,"Ginkaku-ji",false
+kyoto,2026-07-02,4,3,"Ryoan-ji",false
+kyoto,2026-07-02,4,4,"To-ji",false
+kyoto,2026-07-02,5,1,"Arashiyama Bamboo Grove",true
+kyoto,2026-07-02,5,2,"Aokigahara Forest",false
+kyoto,2026-07-02,5,3,"Nara Park",false
+kyoto,2026-07-02,5,4,"Ueno Park",false
+kyoto,2026-07-02,6,1,"Kiyomizu-dera",true
+kyoto,2026-07-02,6,2,"Todai-ji",false
+kyoto,2026-07-02,6,3,"Senso-ji",false
+kyoto,2026-07-02,6,4,"Byodo-in",false
+kyoto,2026-07-02,7,1,"Nishiki Market",true
+kyoto,2026-07-02,7,2,"Tsukiji Outer Market",false
+kyoto,2026-07-02,7,3,"Kuromon Market",false
+kyoto,2026-07-02,7,4,"Pike Place Market",false
+bangkok,2026-07-03,1,1,"Wat Phra Kaew",true
+bangkok,2026-07-03,1,2,"Wat Pho",false
+bangkok,2026-07-03,1,3,"Wat Arun",false
+bangkok,2026-07-03,1,4,"Wat Saket",false
+bangkok,2026-07-03,2,1,"Pad Thai",true
+bangkok,2026-07-03,2,2,"Pho",false
+bangkok,2026-07-03,2,3,"Laksa",false
+bangkok,2026-07-03,2,4,"Bibimbap",false
+bangkok,2026-07-03,3,1,"Chao Phraya River",true
+bangkok,2026-07-03,3,2,"Irrawaddy River",false
+bangkok,2026-07-03,3,3,"Red River",false
+bangkok,2026-07-03,3,4,"Pasig River",false
+bangkok,2026-07-03,4,1,"Chatuchak Weekend Market",true
+bangkok,2026-07-03,4,2,"Ben Thanh Market",false
+bangkok,2026-07-03,4,3,"Nishiki Market",false
+bangkok,2026-07-03,4,4,"Namdaemun Market",false
+bangkok,2026-07-03,5,1,"Wat Arun",true
+bangkok,2026-07-03,5,2,"Wat Pho",false
+bangkok,2026-07-03,5,3,"Wat Benchamabophit",false
+bangkok,2026-07-03,5,4,"Wat Suthat",false
+bangkok,2026-07-03,6,1,"Krung Thep",true
+bangkok,2026-07-03,6,2,"Chiang Mai",false
+bangkok,2026-07-03,6,3,"Ayutthaya",false
+bangkok,2026-07-03,6,4,"Thonburi",false
+bangkok,2026-07-03,7,1,"Banglamphu",true
+bangkok,2026-07-03,7,2,"Sathorn",false
+bangkok,2026-07-03,7,3,"Ari",false
+bangkok,2026-07-03,7,4,"Ekkamai",false
+lisbon,2026-07-04,1,1,"Tram",true
+lisbon,2026-07-04,1,2,"Gondola",false
+lisbon,2026-07-04,1,3,"Cable car",false
+lisbon,2026-07-04,1,4,"Monorail",false
+lisbon,2026-07-04,2,1,"Pastel de nata",true
+lisbon,2026-07-04,2,2,"Churro",false
+lisbon,2026-07-04,2,3,"Cannoli",false
+lisbon,2026-07-04,2,4,"Macaron",false
+lisbon,2026-07-04,3,1,"Alfama",true
+lisbon,2026-07-04,3,2,"Belém",false
+lisbon,2026-07-04,3,3,"Parque das Nações",false
+lisbon,2026-07-04,3,4,"Avenida da Liberdade",false
+lisbon,2026-07-04,4,1,"Tagus River",true
+lisbon,2026-07-04,4,2,"Douro River",false
+lisbon,2026-07-04,4,3,"Seine River",false
+lisbon,2026-07-04,4,4,"Arno River",false
+lisbon,2026-07-04,5,1,"Belém Tower",true
+lisbon,2026-07-04,5,2,"Clérigos Tower",false
+lisbon,2026-07-04,5,3,"Tower Bridge",false
+lisbon,2026-07-04,5,4,"Galata Tower",false
+lisbon,2026-07-04,6,1,"Santa Justa Lift",true
+lisbon,2026-07-04,6,2,"Bica Funicular",false
+lisbon,2026-07-04,6,3,"Glória Funicular",false
+lisbon,2026-07-04,6,4,"Lavra Funicular",false
+lisbon,2026-07-04,7,1,"Azulejos",true
+lisbon,2026-07-04,7,2,"Mosaics",false
+lisbon,2026-07-04,7,3,"Frescoes",false
+lisbon,2026-07-04,7,4,"Tapestries",false
+mexico-city,2026-07-05,1,1,"Teotihuacan",true
+mexico-city,2026-07-05,1,2,"Chichen Itza",false
+mexico-city,2026-07-05,1,3,"Palenque",false
+mexico-city,2026-07-05,1,4,"Uxmal",false
+mexico-city,2026-07-05,2,1,"Taco",true
+mexico-city,2026-07-05,2,2,"Arepa",false
+mexico-city,2026-07-05,2,3,"Empanada",false
+mexico-city,2026-07-05,2,4,"Pupusa",false
+mexico-city,2026-07-05,3,1,"Zócalo",true
+mexico-city,2026-07-05,3,2,"Plaza Mayor",false
+mexico-city,2026-07-05,3,3,"Plaza de Mayo",false
+mexico-city,2026-07-05,3,4,"Plaza Italia",false
+mexico-city,2026-07-05,4,1,"Frida Kahlo",true
+mexico-city,2026-07-05,4,2,"Remedios Varo",false
+mexico-city,2026-07-05,4,3,"Leonora Carrington",false
+mexico-city,2026-07-05,4,4,"María Izquierdo",false
+mexico-city,2026-07-05,5,1,"Chapultepec",true
+mexico-city,2026-07-05,5,2,"Alameda Central",false
+mexico-city,2026-07-05,5,3,"Parque México",false
+mexico-city,2026-07-05,5,4,"Viveros de Coyoacán",false
+mexico-city,2026-07-05,6,1,"Templo Mayor",true
+mexico-city,2026-07-05,6,2,"Palacio de Bellas Artes",false
+mexico-city,2026-07-05,6,3,"Castillo de Chapultepec",false
+mexico-city,2026-07-05,6,4,"Monumento a la Revolución",false
+mexico-city,2026-07-05,7,1,"Xochimilco",true
+mexico-city,2026-07-05,7,2,"Polanco",false
+mexico-city,2026-07-05,7,3,"Roma Norte",false
+mexico-city,2026-07-05,7,4,"Santa Fe",false

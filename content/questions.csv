@@ -1,1 +1,36 @@
 city_slug,challenge_date,question_order,difficulty,question_text,fun_fact,is_published
+seoul,2026-07-01,1,easy,"Which royal palace in Seoul is famous for its changing of the guard ceremony?","Gyeongbokgung was the main royal palace of the Joseon dynasty. Visitors can still watch a colorful guard-changing ceremony near the main gate.",true
+seoul,2026-07-01,2,easy,"Which Korean dish is a spicy fermented cabbage side often served with meals?","Kimchi is one of Korea's most iconic foods. Many families have their own preferred recipes and fermentation styles.",true
+seoul,2026-07-01,3,medium,"Which Seoul river is lined with parks, bridges, and picnic spots?","The Han River cuts across Seoul and is a favorite place for cycling, night views, and riverside snacks.",true
+seoul,2026-07-01,4,medium,"Which Seoul neighborhood is known for traditional hanok houses?","Bukchon Hanok Village sits between royal palaces and preserves lanes of traditional Korean houses.",true
+seoul,2026-07-01,5,medium,"What is the name of Seoul's tall tower on Namsan Mountain?","N Seoul Tower is a popular lookout spot with wide city views and a plaza filled with love locks.",true
+seoul,2026-07-01,6,hard,"Which stream was restored into a public walkway through central Seoul?","Cheonggyecheon was uncovered and restored as an urban stream after decades beneath an elevated road.",true
+seoul,2026-07-01,7,hard,"Which Seoul gate is officially called Sungnyemun?","Namdaemun, officially Sungnyemun, is one of Seoul's historic city gates and a National Treasure of South Korea.",true
+kyoto,2026-07-02,1,easy,"Which Kyoto shrine is famous for thousands of bright orange torii gates?","Fushimi Inari Taisha's torii gates wind up the mountain behind the shrine and are one of Kyoto's most memorable sights.",true
+kyoto,2026-07-02,2,easy,"Which traditional Japanese garment is commonly rented by visitors in Kyoto?","Many visitors rent kimono or yukata in Kyoto to explore historic streets and temple districts.",true
+kyoto,2026-07-02,3,medium,"Which Kyoto district is strongly associated with geiko and maiko culture?","Gion is Kyoto's best-known geiko district, with teahouses, lanterns, and preserved streets.",true
+kyoto,2026-07-02,4,medium,"Which golden temple reflects beside a pond in northern Kyoto?","Kinkaku-ji is covered in gold leaf and sits beside a reflective pond designed for scenic views.",true
+kyoto,2026-07-02,5,medium,"Which Kyoto bamboo grove is found in the Arashiyama area?","Arashiyama's bamboo grove is famous for its tall green stalks and softly filtered light.",true
+kyoto,2026-07-02,6,hard,"Which Kyoto temple has a stage built without nails overlooking the city?","Kiyomizu-dera's wooden stage projects from the hillside and was built using traditional joinery.",true
+kyoto,2026-07-02,7,hard,"Which Kyoto market is nicknamed Kyoto's Kitchen?","Nishiki Market is packed with small food stalls, pickles, sweets, seafood, and local snacks.",true
+bangkok,2026-07-03,1,easy,"Which Bangkok temple complex houses the famous Emerald Buddha?","Wat Phra Kaew sits within the Grand Palace grounds and is one of Thailand's most sacred temple sites.",true
+bangkok,2026-07-03,2,easy,"Which Thai noodle dish often includes tamarind, peanuts, and lime?","Pad Thai is a famous Thai stir-fried noodle dish with sweet, sour, salty, and nutty flavors.",true
+bangkok,2026-07-03,3,medium,"Which river flows through Bangkok and carries many commuter boats?","The Chao Phraya River is a working waterway with ferries, long-tail boats, temples, and skyline views.",true
+bangkok,2026-07-03,4,medium,"Which giant weekend market in Bangkok is known for thousands of stalls?","Chatuchak Weekend Market is one of the world's largest weekend markets, selling everything from clothes to plants.",true
+bangkok,2026-07-03,5,medium,"Which Bangkok temple is known as the Temple of Dawn?","Wat Arun's porcelain-covered spires glow beautifully at sunrise and sunset along the river.",true
+bangkok,2026-07-03,6,hard,"What is the local Thai name often used for Bangkok?","Krung Thep is the commonly used Thai short name for Bangkok, from a much longer ceremonial name.",true
+bangkok,2026-07-03,7,hard,"Which Bangkok area is famous for backpacker nightlife around Khao San Road?","Banglamphu is the historic neighborhood around Khao San Road, long popular with budget travelers.",true
+lisbon,2026-07-04,1,easy,"Which bright yellow vehicle is a classic symbol of Lisbon's steep streets?","Lisbon's vintage trams climb narrow hills and are one of the city's most beloved icons.",true
+lisbon,2026-07-04,2,easy,"Which Portuguese custard tart is especially famous in Lisbon?","Pastel de nata has flaky pastry and creamy custard, often topped with cinnamon or powdered sugar.",true
+lisbon,2026-07-04,3,medium,"Which Lisbon neighborhood is known for narrow lanes and fado music?","Alfama is one of Lisbon's oldest neighborhoods, with winding streets and intimate fado houses.",true
+lisbon,2026-07-04,4,medium,"Which river meets the Atlantic Ocean beside Lisbon?","The Tagus River widens near Lisbon before reaching the Atlantic, creating dramatic waterfront views.",true
+lisbon,2026-07-04,5,medium,"Which historic tower stands near the Belém waterfront?","Belém Tower was built in the early 1500s and guarded Lisbon's river entrance.",true
+lisbon,2026-07-04,6,hard,"Which Lisbon elevator connects Baixa with the higher Carmo area?","The Santa Justa Lift is an iron elevator designed in the early 20th century to connect two city levels.",true
+lisbon,2026-07-04,7,hard,"Which blue-and-white tiles decorate many Lisbon buildings?","Azulejos are painted ceramic tiles that add color, pattern, and history to Portuguese buildings.",true
+mexico-city,2026-07-05,1,easy,"Which ancient city of pyramids is a popular day trip from Mexico City?","Teotihuacan is known for the Pyramid of the Sun and Pyramid of the Moon, just outside the modern capital.",true
+mexico-city,2026-07-05,2,easy,"Which handheld food is made with a tortilla and fillings like al pastor?","Tacos are a Mexico City staple, from street stands to late-night taquerias.",true
+mexico-city,2026-07-05,3,medium,"Which huge central square is the historic heart of Mexico City?","The Zócalo is one of the world's largest city squares and sits beside major civic and religious landmarks.",true
+mexico-city,2026-07-05,4,medium,"Which artist's blue house museum is in Coyoacán?","Frida Kahlo's Casa Azul preserves the artist's home, studio, and personal objects.",true
+mexico-city,2026-07-05,5,medium,"Which park is often called the lungs of Mexico City?","Chapultepec is a vast urban park with museums, a castle, lakes, and tree-lined paths.",true
+mexico-city,2026-07-05,6,hard,"Which ancient Mexica temple ruins sit near the Zócalo?","Templo Mayor was once a central temple of Tenochtitlan, the Mexica capital beneath today's city center.",true
+mexico-city,2026-07-05,7,hard,"Which canal neighborhood is known for colorful trajinera boats?","Xochimilco's canals preserve traces of an ancient lake system and are famous for brightly painted boats.",true

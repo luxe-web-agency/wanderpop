@@ -1,1 +1,6 @@
 slug,name,country,region,timezone_hint,short_description,stamp_image_url,stamp_silhouette_url,is_published
+seoul,Seoul,South Korea,Asia,Asia/Seoul,"A high-energy capital where palaces, street food, and neon neighborhoods collide.",,,true
+kyoto,Kyoto,Japan,Asia,Asia/Tokyo,"A graceful former capital known for temples, tea houses, gardens, and quiet lanes.",,,true
+bangkok,Bangkok,Thailand,Asia,Asia/Bangkok,"A colorful river city where golden temples, markets, and street food fill every day.",,,true
+lisbon,Lisbon,Portugal,Europe,Europe/Lisbon,"A sunny Atlantic capital of tiled streets, yellow trams, hilltop views, and music.",,,true
+mexico-city,Mexico City,Mexico,North America,America/Mexico_City,"A vast high-altitude capital layered with ancient ruins, art, parks, and legendary food.",,,true

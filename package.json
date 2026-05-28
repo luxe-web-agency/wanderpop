@@ -12,6 +12,13 @@
     "packages/*"
   ],
   "scripts": {
-    "typecheck": "npm run typecheck --workspace @wanderpop/mobile"
+    "import": "tsx scripts/import-content.ts",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@supabase/supabase-js": "^2.106.2",
+    "@types/papaparse": "^5.5.2",
+    "papaparse": "^5.5.3",
+    "tsx": "^4.22.3"
   }
 }

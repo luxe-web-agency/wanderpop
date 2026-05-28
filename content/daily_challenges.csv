@@ -1,1 +1,6 @@
 challenge_date,season_slug,city_slug,sort_order,is_published
+2026-07-01,season-1,seoul,1,true
+2026-07-02,season-1,kyoto,2,true
+2026-07-03,season-1,bangkok,3,true
+2026-07-04,season-1,lisbon,4,true
+2026-07-05,season-1,mexico-city,5,true
