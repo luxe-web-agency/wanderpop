@@ -8,3 +8,6 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 *.local
+.env.local
+.env
+supabase/.temp/

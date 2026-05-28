@@ -1,5 +1,5 @@
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 
 import { readCsv } from './lib/csv';
 import { createSupabaseServiceClient } from './lib/db';
@@ -12,9 +12,9 @@ import {
   validateContent,
 } from './lib/validate';
 
-const scriptDir = dirname(fileURLToPath(import.meta.url));
-const rootDir = resolve(scriptDir, '..');
+const rootDir = process.cwd();
 const contentDir = resolve(rootDir, 'content');
+const localEnvPath = resolve(rootDir, '.env.local');
 
 const isDryRun = process.argv.includes('--dry-run');
 
@@ -37,7 +37,47 @@ function requireValue<T>(value: T | undefined, message: string): T {
   return value;
 }
 
+function loadEnvFile(path: string) {
+  try {
+    const contents = readFileSync(path, 'utf8');
+
+    for (const line of contents.split(/\r?\n/)) {
+      const trimmedLine = line.trim();
+
+      if (!trimmedLine || trimmedLine.startsWith('#')) {
+        continue;
+      }
+
+      const [rawKey, ...rawValueParts] = trimmedLine.split('=');
+      const key = rawKey.trim();
+
+      if (!key) {
+        continue;
+      }
+
+      const rawValue = rawValueParts.join('=').trim();
+
+      if (process.env[key] === undefined) {
+        process.env[key] = rawValue;
+      }
+    }
+  } catch (error) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'code' in error &&
+      error.code === 'ENOENT'
+    ) {
+      return;
+    }
+
+    throw error;
+  }
+}
+
 async function main() {
+  loadEnvFile(localEnvPath);
+
   const files = {
     seasons: await readCsv<SeasonCsvRow>(resolve(contentDir, 'seasons.csv')),
     cities: await readCsv<CityCsvRow>(resolve(contentDir, 'cities.csv')),
