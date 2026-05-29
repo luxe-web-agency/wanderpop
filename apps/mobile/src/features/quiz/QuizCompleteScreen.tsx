@@ -5,7 +5,9 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { Screen } from '../../components/Screen';
+import { SaveProgressPrompt } from '../account/SaveProgressPrompt';
 import { getCurrentLocalDateContext } from '../../lib/date';
+import { useAppSession } from '../../providers/AppProvider';
 import { completeQuiz } from '../../services/quiz';
 import { theme } from '../../styles/theme';
 
@@ -15,9 +17,11 @@ type QuizCompleteState =
   | { status: 'ready'; result: CompleteQuizResponse };
 
 export default function QuizCompleteScreen() {
+  const { session } = useAppSession();
   const params = useLocalSearchParams<{ attemptId?: string | string[] }>();
   const attemptId = Array.isArray(params.attemptId) ? params.attemptId[0] : params.attemptId;
   const [screenState, setScreenState] = useState<QuizCompleteState>({ status: 'loading' });
+  const [showSavePrompt, setShowSavePrompt] = useState(true);
 
   const loadResult = useCallback(async () => {
     if (!attemptId) {
@@ -134,6 +138,14 @@ export default function QuizCompleteScreen() {
           </Text>
         </View>
       </View>
+
+      {session.isGuest && showSavePrompt ? (
+        <SaveProgressPrompt
+          body="Your stamp is saved to this guest session right now. Add an email link so you can keep your progress if you change devices later."
+          onDismiss={() => setShowSavePrompt(false)}
+          onSaveProgress={() => router.push('/account')}
+        />
+      ) : null}
 
       <View style={styles.actions}>
         <Button onPress={() => router.push('/passport')}>View Passport Shell</Button>

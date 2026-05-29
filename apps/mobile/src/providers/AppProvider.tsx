@@ -7,16 +7,17 @@ import {
   useMemo,
   useState,
 } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Linking, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../components/Button';
 import { Screen } from '../components/Screen';
-import type { GuestSession } from '../services/auth';
-import { ensureGuestSession } from '../services/auth';
+import { supabase } from '../lib/supabase';
+import type { AppSession } from '../services/auth';
+import { ensureGuestSession, handleAuthCallbackUrl } from '../services/auth';
 import { theme } from '../styles/theme';
 
 type AppSessionContextValue = {
-  session: GuestSession;
+  session: AppSession;
 };
 
 const AppSessionContext = createContext<AppSessionContextValue | null>(null);
@@ -24,7 +25,7 @@ const AppSessionContext = createContext<AppSessionContextValue | null>(null);
 type BootstrapState =
   | { status: 'loading' }
   | { status: 'error'; message: string }
-  | { status: 'ready'; session: GuestSession };
+  | { status: 'ready'; session: AppSession };
 
 export function AppProvider({ children }: PropsWithChildren) {
   const [bootstrapState, setBootstrapState] = useState<BootstrapState>({
@@ -48,7 +49,46 @@ export function AppProvider({ children }: PropsWithChildren) {
   }, []);
 
   useEffect(() => {
-    void bootstrap();
+    let isMounted = true;
+
+    async function processUrl(url: string) {
+      try {
+        return await handleAuthCallbackUrl(url);
+      } catch {
+        return false;
+      }
+    }
+
+    async function initialize() {
+      const initialUrl = await Linking.getInitialURL();
+      const handled = initialUrl ? await processUrl(initialUrl) : false;
+
+      if (!handled && isMounted) {
+        await bootstrap();
+      }
+    }
+
+    void initialize();
+
+    const urlSubscription = Linking.addEventListener('url', ({ url }) => {
+      void processUrl(url).then((handled) => {
+        if (handled) {
+          void bootstrap();
+        }
+      });
+    });
+
+    const {
+      data: { subscription: authSubscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      void bootstrap();
+    });
+
+    return () => {
+      isMounted = false;
+      urlSubscription.remove();
+      authSubscription.unsubscribe();
+    };
   }, [bootstrap]);
 
   const contextValue = useMemo<AppSessionContextValue | null>(() => {
