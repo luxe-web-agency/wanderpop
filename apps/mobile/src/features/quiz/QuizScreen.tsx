@@ -24,7 +24,9 @@ export default function QuizScreen() {
         <Button variant="secondary" onPress={() => {}}>
           Placeholder Option B
         </Button>
-        <Button onPress={() => router.push('/quiz-complete')}>Complete Placeholder Quiz</Button>
+        <Button onPress={() => router.push('/quiz-complete' as never)}>
+          Complete Placeholder Quiz
+        </Button>
       </View>
     </Screen>
   );

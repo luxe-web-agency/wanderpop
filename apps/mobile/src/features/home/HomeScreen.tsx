@@ -18,11 +18,11 @@ export default function HomeScreen() {
       </View>
 
       <View style={styles.actions}>
-        <Button onPress={() => router.push('/quiz')}>Start Quiz</Button>
-        <Button variant="secondary" onPress={() => router.push('/passport')}>
+        <Button onPress={() => router.push('/quiz' as never)}>Start Quiz</Button>
+        <Button variant="secondary" onPress={() => router.push('/passport' as never)}>
           View Passport
         </Button>
-        <Button variant="secondary" onPress={() => router.push('/account')}>
+        <Button variant="secondary" onPress={() => router.push('/account' as never)}>
           Account
         </Button>
       </View>

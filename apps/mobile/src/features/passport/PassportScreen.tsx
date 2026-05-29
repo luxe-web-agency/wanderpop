@@ -23,7 +23,11 @@ export default function PassportScreen() {
           <Pressable
             accessibilityRole="button"
             key={city}
-            onPress={() => router.push(`/passport/${city.toLowerCase().replaceAll(' ', '-')}`)}
+            onPress={() =>
+              router.push(
+                `/passport/${city.toLowerCase().replaceAll(' ', '-')}` as never,
+              )
+            }
             style={styles.slot}
           >
             <Text style={styles.stamp}>◎</Text>
@@ -32,7 +36,7 @@ export default function PassportScreen() {
         ))}
       </View>
 
-      <Button variant="secondary" onPress={() => router.push('/home')}>
+      <Button variant="secondary" onPress={() => router.push('/home' as never)}>
         Back to Home
       </Button>
     </Screen>

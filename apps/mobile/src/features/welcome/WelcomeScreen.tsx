@@ -21,7 +21,7 @@ export default function WelcomeScreen() {
       </View>
 
       <View style={styles.actions}>
-        <Button onPress={() => router.push('/home')}>Go to Home</Button>
+        <Button onPress={() => router.push('/home' as never)}>Go to Home</Button>
         <Text style={styles.meta}>Phase 1 placeholder · {environment}</Text>
       </View>
     </Screen>

@@ -18,8 +18,8 @@ export default function QuizCompleteScreen() {
       </View>
 
       <View style={styles.actions}>
-        <Button onPress={() => router.push('/passport')}>View Passport</Button>
-        <Button variant="secondary" onPress={() => router.push('/home')}>
+        <Button onPress={() => router.push('/passport' as never)}>View Passport</Button>
+        <Button variant="secondary" onPress={() => router.push('/home' as never)}>
           Back to Home
         </Button>
       </View>

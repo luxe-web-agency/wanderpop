@@ -1,22 +1,35 @@
 import { router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { useAppSession } from '../../providers/AppProvider';
 import { Button } from '../../components/Button';
 import { Screen } from '../../components/Screen';
 import { theme } from '../../styles/theme';
 
 export default function AccountScreen() {
+  const { session } = useAppSession();
+
   return (
     <Screen>
       <View style={styles.card}>
         <Text style={styles.title}>Account</Text>
         <Text style={styles.body}>
-          Guest play and save-progress prompts will be added later. Phase 1 keeps this
-          as a placeholder only.
+          You are currently playing as a guest. Your progress is tied to a silent
+          device session until save-progress sign-in is added in a later phase.
         </Text>
+        <View style={styles.metaGroup}>
+          <Text style={styles.metaLabel}>Account type</Text>
+          <Text style={styles.metaValue}>{session.accountType}</Text>
+        </View>
+        <View style={styles.metaGroup}>
+          <Text style={styles.metaLabel}>Guest user ID</Text>
+          <Text selectable style={styles.metaValue}>
+            {session.userId}
+          </Text>
+        </View>
       </View>
 
-      <Button variant="secondary" onPress={() => router.push('/home')}>
+      <Button variant="secondary" onPress={() => router.push('/home' as never)}>
         Back to Home
       </Button>
     </Screen>
@@ -39,5 +52,19 @@ const styles = StyleSheet.create({
     color: theme.colors.mutedText,
     fontSize: theme.typography.body,
     lineHeight: 24,
+  },
+  metaGroup: {
+    gap: theme.spacing.xs,
+  },
+  metaLabel: {
+    color: theme.colors.primaryDark,
+    fontSize: theme.typography.small,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+  },
+  metaValue: {
+    color: theme.colors.text,
+    fontSize: theme.typography.body,
+    fontWeight: '600',
   },
 });
