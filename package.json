@@ -12,6 +12,7 @@
     "packages/*"
   ],
   "scripts": {
+    "clear-user-data": "tsx scripts/clear-user-data.ts",
     "import": "tsx scripts/import-content.ts",
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
