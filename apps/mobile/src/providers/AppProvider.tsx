@@ -1,3 +1,4 @@
+import { ANALYTICS_EVENTS, getTodayLocalDate } from '@wanderpop/shared';
 import type { PropsWithChildren } from 'react';
 import {
   createContext,
@@ -5,14 +6,24 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
-import { ActivityIndicator, Linking, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  AppState,
+  type AppStateStatus,
+  Linking,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 
 import { Button } from '../components/Button';
 import { Screen } from '../components/Screen';
 import { supabase } from '../lib/supabase';
 import type { AppSession } from '../services/auth';
+import { trackAnalyticsEvent } from '../services/analytics';
 import { ensureGuestSession, handleAuthCallbackUrl } from '../services/auth';
 import { theme } from '../styles/theme';
 
@@ -27,10 +38,16 @@ type BootstrapState =
   | { status: 'error'; message: string }
   | { status: 'ready'; session: AppSession };
 
+const APP_OPEN_FOREGROUND_THRESHOLD_MS = 30_000;
+
 export function AppProvider({ children }: PropsWithChildren) {
   const [bootstrapState, setBootstrapState] = useState<BootstrapState>({
     status: 'loading',
   });
+  const hasTrackedInitialOpenRef = useRef(false);
+  const previousSessionRef = useRef<AppSession | null>(null);
+  const appStateRef = useRef<AppStateStatus>(AppState.currentState);
+  const lastBackgroundedAtRef = useRef<number | null>(null);
 
   const bootstrap = useCallback(async () => {
     setBootstrapState({ status: 'loading' });
@@ -90,6 +107,67 @@ export function AppProvider({ children }: PropsWithChildren) {
       authSubscription.unsubscribe();
     };
   }, [bootstrap]);
+
+  useEffect(() => {
+    if (bootstrapState.status !== 'ready') {
+      return;
+    }
+
+    const nextSession = bootstrapState.session;
+    const previousSession = previousSessionRef.current;
+
+    if (!hasTrackedInitialOpenRef.current) {
+      hasTrackedInitialOpenRef.current = true;
+      trackAnalyticsEvent(ANALYTICS_EVENTS.APP_OPENED, {
+        user_type: nextSession.isGuest ? 'guest' : 'registered',
+        local_date: getTodayLocalDate(),
+      });
+    }
+
+    if (previousSession?.isGuest && !nextSession.isGuest) {
+      trackAnalyticsEvent(ANALYTICS_EVENTS.SIGNUP_COMPLETED, {
+        method: 'email_magic_link',
+        had_guest_progress: true,
+      });
+    }
+
+    previousSessionRef.current = nextSession;
+  }, [bootstrapState]);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', (nextAppState) => {
+      const previousAppState = appStateRef.current;
+      appStateRef.current = nextAppState;
+
+      if (previousAppState === 'active' && nextAppState !== 'active') {
+        lastBackgroundedAtRef.current = Date.now();
+        return;
+      }
+
+      const backgroundedAt = lastBackgroundedAtRef.current;
+      const shouldTrackForegroundOpen =
+        previousAppState !== 'active' &&
+        nextAppState === 'active' &&
+        backgroundedAt !== null &&
+        Date.now() - backgroundedAt >= APP_OPEN_FOREGROUND_THRESHOLD_MS &&
+        bootstrapState.status === 'ready';
+
+      if (shouldTrackForegroundOpen) {
+        trackAnalyticsEvent(ANALYTICS_EVENTS.APP_OPENED, {
+          user_type: bootstrapState.session.isGuest ? 'guest' : 'registered',
+          local_date: getTodayLocalDate(),
+        });
+      }
+
+      if (nextAppState === 'active') {
+        lastBackgroundedAtRef.current = null;
+      }
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, [bootstrapState]);
 
   const contextValue = useMemo<AppSessionContextValue | null>(() => {
     if (bootstrapState.status !== 'ready') {

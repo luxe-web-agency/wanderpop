@@ -1,12 +1,13 @@
-import type { TodayChallengeResponse } from '@wanderpop/shared';
+import { ANALYTICS_EVENTS, type TodayChallengeResponse } from '@wanderpop/shared';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { Screen } from '../../components/Screen';
 import { getCurrentLocalDateContext } from '../../lib/date';
 import { useAppSession } from '../../providers/AppProvider';
+import { trackAnalyticsEvent } from '../../services/analytics';
 import { getTodayChallenge } from '../../services/challenges';
 import { theme } from '../../styles/theme';
 
@@ -34,7 +35,12 @@ function getPrimaryAction(challenge: TodayChallengeResponse) {
           challenge.user_status.attempt_id
             ? router.push({
                 pathname: '/quiz-complete',
-                params: { attemptId: challenge.user_status.attempt_id },
+                params: {
+                  attemptId: challenge.user_status.attempt_id,
+                  challengeDate: activeChallenge.date,
+                  citySlug: activeChallenge.city.slug,
+                  seasonSlug: activeChallenge.season.slug,
+                },
               })
             : router.push('/quiz-complete'),
       };
@@ -44,7 +50,12 @@ function getPrimaryAction(challenge: TodayChallengeResponse) {
         onPress: () =>
           router.push({
             pathname: '/quiz',
-            params: { challengeId: activeChallenge.id },
+            params: {
+              challengeId: activeChallenge.id,
+              challengeDate: activeChallenge.date,
+              citySlug: activeChallenge.city.slug,
+              seasonSlug: activeChallenge.season.slug,
+            },
           }),
       };
     case 'unavailable':
@@ -66,7 +77,12 @@ function getPrimaryAction(challenge: TodayChallengeResponse) {
         onPress: () =>
           router.push({
             pathname: '/quiz',
-            params: { challengeId: activeChallenge.id },
+            params: {
+              challengeId: activeChallenge.id,
+              challengeDate: activeChallenge.date,
+              citySlug: activeChallenge.city.slug,
+              seasonSlug: activeChallenge.season.slug,
+            },
           }),
       };
   }
@@ -75,6 +91,7 @@ function getPrimaryAction(challenge: TodayChallengeResponse) {
 export default function HomeScreen() {
   const { session } = useAppSession();
   const [homeState, setHomeState] = useState<HomeState>({ status: 'loading' });
+  const trackedChallengeViewRef = useRef<string | null>(null);
 
   const loadChallenge = useCallback(async () => {
     setHomeState({ status: 'loading' });
@@ -95,6 +112,27 @@ export default function HomeScreen() {
   useEffect(() => {
     void loadChallenge();
   }, [loadChallenge, session.userId]);
+
+  useEffect(() => {
+    if (homeState.status !== 'ready' || !homeState.challenge.challenge) {
+      return;
+    }
+
+    const eventKey = `${session.userId}:${homeState.challenge.challenge.id}`;
+
+    if (trackedChallengeViewRef.current === eventKey) {
+      return;
+    }
+
+    trackedChallengeViewRef.current = eventKey;
+
+    trackAnalyticsEvent(ANALYTICS_EVENTS.TODAY_CHALLENGE_VIEWED, {
+      city_slug: homeState.challenge.challenge.city.slug,
+      season_slug: homeState.challenge.challenge.season.slug,
+      challenge_date: homeState.challenge.challenge.date,
+      quiz_status: homeState.challenge.user_status.quiz_status,
+    });
+  }, [homeState, session.userId]);
 
   const primaryAction = useMemo(() => {
     if (homeState.status !== 'ready') {

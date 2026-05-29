@@ -1,6 +1,6 @@
-import type { CompleteQuizResponse } from '@wanderpop/shared';
+import { ANALYTICS_EVENTS, type CompleteQuizResponse } from '@wanderpop/shared';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
@@ -8,6 +8,7 @@ import { Screen } from '../../components/Screen';
 import { SaveProgressPrompt } from '../account/SaveProgressPrompt';
 import { getCurrentLocalDateContext } from '../../lib/date';
 import { useAppSession } from '../../providers/AppProvider';
+import { trackAnalyticsEvent } from '../../services/analytics';
 import { completeQuiz } from '../../services/quiz';
 import { theme } from '../../styles/theme';
 
@@ -18,10 +19,24 @@ type QuizCompleteState =
 
 export default function QuizCompleteScreen() {
   const { session } = useAppSession();
-  const params = useLocalSearchParams<{ attemptId?: string | string[] }>();
+  const params = useLocalSearchParams<{
+    attemptId?: string | string[];
+    challengeDate?: string | string[];
+    citySlug?: string | string[];
+    seasonSlug?: string | string[];
+  }>();
   const attemptId = Array.isArray(params.attemptId) ? params.attemptId[0] : params.attemptId;
+  const challengeDate = Array.isArray(params.challengeDate)
+    ? params.challengeDate[0]
+    : params.challengeDate;
+  const citySlug = Array.isArray(params.citySlug) ? params.citySlug[0] : params.citySlug;
+  const seasonSlug = Array.isArray(params.seasonSlug)
+    ? params.seasonSlug[0]
+    : params.seasonSlug;
   const [screenState, setScreenState] = useState<QuizCompleteState>({ status: 'loading' });
   const [showSavePrompt, setShowSavePrompt] = useState(true);
+  const trackedResultRef = useRef<string | null>(null);
+  const trackedPromptShownRef = useRef<string | null>(null);
 
   const loadResult = useCallback(async () => {
     if (!attemptId) {
@@ -56,6 +71,72 @@ export default function QuizCompleteScreen() {
   useEffect(() => {
     void loadResult();
   }, [loadResult]);
+
+  useEffect(() => {
+    if (
+      screenState.status !== 'ready' ||
+      !citySlug ||
+      !seasonSlug ||
+      !challengeDate
+    ) {
+      return;
+    }
+
+    const eventKey = screenState.result.attempt.id;
+
+    if (trackedResultRef.current === eventKey) {
+      return;
+    }
+
+    trackedResultRef.current = eventKey;
+
+    trackAnalyticsEvent(ANALYTICS_EVENTS.QUIZ_COMPLETED, {
+      city_slug: citySlug,
+      season_slug: seasonSlug,
+      challenge_date: challengeDate,
+      score: screenState.result.attempt.score,
+      total_questions: screenState.result.attempt.total_questions,
+      is_perfect: screenState.result.stamp.type === 'perfect',
+    });
+
+    if (screenState.result.stamp.type === 'perfect') {
+      trackAnalyticsEvent(ANALYTICS_EVENTS.PERFECT_STAMP_COLLECTED, {
+        city_slug: citySlug,
+        season_slug: seasonSlug,
+        challenge_date: challengeDate,
+        score: screenState.result.attempt.score,
+        total_questions: screenState.result.attempt.total_questions,
+      });
+      return;
+    }
+
+    trackAnalyticsEvent(ANALYTICS_EVENTS.CITY_STAMP_COLLECTED, {
+      city_slug: citySlug,
+      season_slug: seasonSlug,
+      challenge_date: challengeDate,
+      score: screenState.result.attempt.score,
+      total_questions: screenState.result.attempt.total_questions,
+    });
+  }, [challengeDate, citySlug, screenState, seasonSlug]);
+
+  useEffect(() => {
+    if (screenState.status !== 'ready' || !session.isGuest || !showSavePrompt) {
+      return;
+    }
+
+    const eventKey = screenState.result.attempt.id;
+
+    if (trackedPromptShownRef.current === eventKey) {
+      return;
+    }
+
+    trackedPromptShownRef.current = eventKey;
+
+    trackAnalyticsEvent(ANALYTICS_EVENTS.SAVE_PROGRESS_PROMPT_SHOWN, {
+      trigger: screenState.result.stamp.type === 'perfect' ? 'perfect_stamp' : 'first_stamp',
+      user_type: 'guest',
+    });
+  }, [screenState, session.isGuest, showSavePrompt]);
 
   if (screenState.status === 'loading') {
     return (
@@ -142,8 +223,22 @@ export default function QuizCompleteScreen() {
       {session.isGuest && showSavePrompt ? (
         <SaveProgressPrompt
           body="Your stamp is saved to this guest session right now. Add an email link so you can keep your progress if you change devices later."
-          onDismiss={() => setShowSavePrompt(false)}
-          onSaveProgress={() => router.push('/account')}
+          onDismiss={() => {
+            if (screenState.status === 'ready') {
+              trackAnalyticsEvent(ANALYTICS_EVENTS.SAVE_PROGRESS_PROMPT_DISMISSED, {
+                trigger:
+                  screenState.result.stamp.type === 'perfect' ? 'perfect_stamp' : 'first_stamp',
+              });
+            }
+
+            setShowSavePrompt(false);
+          }}
+          onSaveProgress={() =>
+            router.push({
+              pathname: '/account',
+              params: { trigger: 'save_progress_prompt' },
+            })
+          }
         />
       ) : null}
 

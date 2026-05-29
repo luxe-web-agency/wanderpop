@@ -1,11 +1,18 @@
-import type { QuizQuestion, StartQuizResponse, SubmitAnswerResponse, Uuid } from '@wanderpop/shared';
+import {
+  ANALYTICS_EVENTS,
+  type QuizQuestion,
+  type StartQuizResponse,
+  type SubmitAnswerResponse,
+  type Uuid,
+} from '@wanderpop/shared';
 import { router, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { Screen } from '../../components/Screen';
 import { getCurrentLocalDateContext } from '../../lib/date';
+import { trackAnalyticsEvent } from '../../services/analytics';
 import { startQuiz, submitAnswer } from '../../services/quiz';
 import { theme } from '../../styles/theme';
 
@@ -38,12 +45,25 @@ function getQuestionIndex(questions: QuizQuestion[], questionId: Uuid | null) {
 }
 
 export default function QuizScreen() {
-  const params = useLocalSearchParams<{ challengeId?: string | string[] }>();
+  const params = useLocalSearchParams<{
+    challengeId?: string | string[];
+    challengeDate?: string | string[];
+    citySlug?: string | string[];
+    seasonSlug?: string | string[];
+  }>();
   const challengeId = Array.isArray(params.challengeId)
     ? params.challengeId[0]
     : params.challengeId;
+  const challengeDate = Array.isArray(params.challengeDate)
+    ? params.challengeDate[0]
+    : params.challengeDate;
+  const citySlug = Array.isArray(params.citySlug) ? params.citySlug[0] : params.citySlug;
+  const seasonSlug = Array.isArray(params.seasonSlug)
+    ? params.seasonSlug[0]
+    : params.seasonSlug;
 
   const [screenState, setScreenState] = useState<QuizScreenState>({ status: 'loading' });
+  const trackedAttemptViewRef = useRef<string | null>(null);
 
   const loadQuiz = useCallback(async () => {
     if (!challengeId) {
@@ -61,6 +81,34 @@ export default function QuizScreen() {
         daily_challenge_id: challengeId,
         ...getCurrentLocalDateContext(),
       });
+
+      if (citySlug && challengeDate) {
+        const eventName =
+          response.attempt.answered_count > 0
+            ? ANALYTICS_EVENTS.QUIZ_RESUMED
+            : ANALYTICS_EVENTS.QUIZ_STARTED;
+        const eventKey = `${eventName}:${response.attempt.id}`;
+
+        if (trackedAttemptViewRef.current !== eventKey) {
+          trackedAttemptViewRef.current = eventKey;
+
+          if (eventName === ANALYTICS_EVENTS.QUIZ_RESUMED) {
+            trackAnalyticsEvent(ANALYTICS_EVENTS.QUIZ_RESUMED, {
+              city_slug: citySlug,
+              challenge_date: challengeDate,
+              answered_count: response.attempt.answered_count,
+              total_questions: response.attempt.total_questions,
+            });
+          } else if (seasonSlug) {
+            trackAnalyticsEvent(ANALYTICS_EVENTS.QUIZ_STARTED, {
+              city_slug: citySlug,
+              season_slug: seasonSlug,
+              challenge_date: challengeDate,
+              total_questions: response.attempt.total_questions,
+            });
+          }
+        }
+      }
 
       setScreenState({
         status: 'ready',
@@ -81,7 +129,7 @@ export default function QuizScreen() {
             : 'Unable to load this quiz right now. Please try again.',
       });
     }
-  }, [challengeId]);
+  }, [challengeDate, challengeId, citySlug, seasonSlug]);
 
   useEffect(() => {
     void loadQuiz();
@@ -139,6 +187,16 @@ export default function QuizScreen() {
           ...getCurrentLocalDateContext(),
         });
 
+        if (citySlug && challengeDate) {
+          trackAnalyticsEvent(ANALYTICS_EVENTS.QUESTION_ANSWERED, {
+            city_slug: citySlug,
+            challenge_date: challengeDate,
+            question_order: currentQuestion.order,
+            difficulty: currentQuestion.difficulty,
+            is_correct: response.answer.is_correct,
+          });
+        }
+
         setScreenState((previous) => {
           if (previous.status !== 'ready') {
             return previous;
@@ -181,7 +239,7 @@ export default function QuizScreen() {
         );
       }
     },
-    [currentQuestion, screenState],
+    [challengeDate, citySlug, currentQuestion, screenState],
   );
 
   const handleNext = useCallback(() => {
@@ -197,7 +255,12 @@ export default function QuizScreen() {
     if (!nextQuestion) {
       router.push({
         pathname: '/quiz-complete',
-        params: { attemptId: screenState.attempt.id },
+        params: {
+          attemptId: screenState.attempt.id,
+          challengeDate,
+          citySlug,
+          seasonSlug,
+        },
       });
       return;
     }
@@ -209,7 +272,7 @@ export default function QuizScreen() {
       lastAnswer: null,
       errorMessage: null,
     });
-  }, [screenState]);
+  }, [challengeDate, citySlug, screenState, seasonSlug]);
 
   if (screenState.status === 'loading') {
     return (
@@ -260,7 +323,12 @@ export default function QuizScreen() {
             onPress={() =>
               router.push({
                 pathname: '/quiz-complete',
-                params: { attemptId: screenState.attempt.id },
+                params: {
+                  attemptId: screenState.attempt.id,
+                  challengeDate,
+                  citySlug,
+                  seasonSlug,
+                },
               })
             }
           >

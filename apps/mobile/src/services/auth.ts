@@ -1,6 +1,7 @@
-import type { AccountType, Profile, Uuid } from '@wanderpop/shared';
+import { ANALYTICS_EVENTS, getTodayLocalDate, type AccountType, type Profile, type Uuid } from '@wanderpop/shared';
 
 import { supabase } from '../lib/supabase';
+import { trackAnalyticsEvent } from './analytics';
 
 const PROFILE_FETCH_RETRY_DELAYS_MS = [0, 150, 300] as const;
 const MAGIC_LINK_REDIRECT_URL = 'wanderpop://auth/callback';
@@ -82,6 +83,9 @@ export async function getAppSession(
     }
 
     activeSession = anonymousData.session;
+    trackAnalyticsEvent(ANALYTICS_EVENTS.GUEST_CREATED, {
+      local_date: getTodayLocalDate(),
+    });
   }
 
   if (!activeSession) {

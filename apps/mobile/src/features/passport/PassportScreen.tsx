@@ -1,11 +1,12 @@
-import type { GetPassportResponse, PassportSlot } from '@wanderpop/shared';
+import { ANALYTICS_EVENTS, type GetPassportResponse, type PassportSlot } from '@wanderpop/shared';
 import { router } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { Screen } from '../../components/Screen';
 import { getCurrentLocalDateContext } from '../../lib/date';
+import { trackAnalyticsEvent } from '../../services/analytics';
 import { getActivePassportSeason, getPassport } from '../../services/passport';
 import { theme } from '../../styles/theme';
 
@@ -32,6 +33,7 @@ function getSlotLabel(slot: PassportSlot) {
 
 export default function PassportScreen() {
   const [screenState, setScreenState] = useState<PassportScreenState>({ status: 'loading' });
+  const trackedPassportOpenRef = useRef<string | null>(null);
 
   const loadPassport = useCallback(async () => {
     setScreenState({ status: 'loading' });
@@ -58,6 +60,29 @@ export default function PassportScreen() {
   useEffect(() => {
     void loadPassport();
   }, [loadPassport]);
+
+  useEffect(() => {
+    if (screenState.status !== 'ready') {
+      return;
+    }
+
+    const eventKey = screenState.passport.season.id;
+
+    if (trackedPassportOpenRef.current === eventKey) {
+      return;
+    }
+
+    trackedPassportOpenRef.current = eventKey;
+
+    trackAnalyticsEvent(ANALYTICS_EVENTS.PASSPORT_OPENED, {
+      season_slug: screenState.passport.season.slug,
+      collected_count: screenState.passport.slots.filter(
+        (slot) => slot.status === 'collected' || slot.status === 'perfect',
+      ).length,
+      perfect_count: screenState.passport.slots.filter((slot) => slot.status === 'perfect').length,
+      missed_count: screenState.passport.slots.filter((slot) => slot.status === 'missed').length,
+    });
+  }, [screenState]);
 
   const slots = useMemo(
     () => (screenState.status === 'ready' ? screenState.passport.slots : []),

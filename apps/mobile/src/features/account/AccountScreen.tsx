@@ -1,15 +1,19 @@
-import { router } from 'expo-router';
+import { ANALYTICS_EVENTS } from '@wanderpop/shared';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 import { useAppSession } from '../../providers/AppProvider';
 import { Button } from '../../components/Button';
 import { Screen } from '../../components/Screen';
+import { trackAnalyticsEvent } from '../../services/analytics';
 import { startEmailMagicLink } from '../../services/auth';
 import { theme } from '../../styles/theme';
 
 export default function AccountScreen() {
   const { session } = useAppSession();
+  const params = useLocalSearchParams<{ trigger?: string | string[] }>();
+  const signupTrigger = Array.isArray(params.trigger) ? params.trigger[0] : params.trigger;
   const [email, setEmail] = useState(session.email ?? '');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -18,11 +22,23 @@ export default function AccountScreen() {
   const isRegistered = !session.isGuest;
 
   async function handleSendMagicLink() {
+    const normalizedEmail = email.trim();
+
     setError(null);
     setNotice(null);
     setIsSubmitting(true);
 
     try {
+      if (normalizedEmail) {
+        trackAnalyticsEvent(ANALYTICS_EVENTS.SIGNUP_STARTED, {
+          method: 'email_magic_link',
+          trigger:
+            signupTrigger === 'save_progress_prompt'
+              ? 'save_progress_prompt'
+              : 'manual_account_open',
+        });
+      }
+
       await startEmailMagicLink(email);
       setNotice(
         'Magic link sent. Check your email and open the link on this device to finish saving your progress.',
