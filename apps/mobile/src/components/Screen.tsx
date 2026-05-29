@@ -8,7 +8,7 @@ type ScreenProps = PropsWithChildren<{
   scroll?: boolean;
 }>;
 
-export function Screen({ children, scroll = false }: ScreenProps) {
+export function Screen({ children, scroll = true }: ScreenProps) {
   if (scroll) {
     return (
       <SafeAreaView style={styles.safeArea}>

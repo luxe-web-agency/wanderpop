@@ -30,7 +30,13 @@ function getPrimaryAction(challenge: TodayChallengeResponse) {
     case 'completed':
       return {
         label: 'View Result',
-        onPress: () => router.push('/quiz-complete'),
+        onPress: () =>
+          challenge.user_status.attempt_id
+            ? router.push({
+                pathname: '/quiz-complete',
+                params: { attemptId: challenge.user_status.attempt_id },
+              })
+            : router.push('/quiz-complete'),
       };
     case 'in_progress':
       return {

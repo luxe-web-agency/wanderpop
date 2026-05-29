@@ -21,6 +21,8 @@ const QUIZ_ERROR_MESSAGES: Record<string, string> = {
     'This question does not belong to the current quiz attempt.',
   [API_ERROR_CODES.OPTION_NOT_IN_QUESTION]:
     'That answer option does not belong to the current question.',
+  [API_ERROR_CODES.NOT_ALL_QUESTIONS_ANSWERED]:
+    'You need to answer every question before finishing this quiz.',
   [API_ERROR_CODES.UNAUTHORIZED]:
     'You must be signed in to continue this quiz.',
 };
@@ -56,8 +58,11 @@ export async function submitAnswer(
 export async function completeQuiz(
   request: CompleteQuizRequest,
 ): Promise<CompleteQuizResponse> {
-  void supabase;
-  void request;
+  const { data, error } = await supabase.rpc('complete_quiz', request);
 
-  throw new Error('Not implemented: completeQuiz');
+  if (error) {
+    throw new Error(getQuizErrorMessage(error.message));
+  }
+
+  return data as CompleteQuizResponse;
 }

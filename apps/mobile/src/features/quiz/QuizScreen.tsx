@@ -195,7 +195,10 @@ export default function QuizScreen() {
       null;
 
     if (!nextQuestion) {
-      router.push('/quiz-complete');
+      router.push({
+        pathname: '/quiz-complete',
+        params: { attemptId: screenState.attempt.id },
+      });
       return;
     }
 
@@ -253,7 +256,16 @@ export default function QuizScreen() {
         </View>
 
         <View style={styles.actions}>
-          <Button onPress={() => router.push('/quiz-complete')}>Open Result Shell</Button>
+          <Button
+            onPress={() =>
+              router.push({
+                pathname: '/quiz-complete',
+                params: { attemptId: screenState.attempt.id },
+              })
+            }
+          >
+            Open Result Shell
+          </Button>
           <Button variant="secondary" onPress={() => router.push('/home')}>
             Back to Home
           </Button>
