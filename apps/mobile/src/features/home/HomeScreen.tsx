@@ -16,6 +16,16 @@ type HomeState =
   | { status: 'ready'; challenge: TodayChallengeResponse };
 
 function getPrimaryAction(challenge: TodayChallengeResponse) {
+  const activeChallenge = challenge.challenge;
+
+  if (!activeChallenge) {
+    return {
+      label: 'Quiz Unavailable Today',
+      onPress: () => undefined,
+      disabled: true,
+    };
+  }
+
   switch (challenge.user_status.quiz_status) {
     case 'completed':
       return {
@@ -25,7 +35,11 @@ function getPrimaryAction(challenge: TodayChallengeResponse) {
     case 'in_progress':
       return {
         label: 'Continue Quiz',
-        onPress: () => router.push('/quiz'),
+        onPress: () =>
+          router.push({
+            pathname: '/quiz',
+            params: { challengeId: activeChallenge.id },
+          }),
       };
     case 'unavailable':
       return {
@@ -43,7 +57,11 @@ function getPrimaryAction(challenge: TodayChallengeResponse) {
     default:
       return {
         label: 'Start Quiz',
-        onPress: () => router.push('/quiz'),
+        onPress: () =>
+          router.push({
+            pathname: '/quiz',
+            params: { challengeId: activeChallenge.id },
+          }),
       };
   }
 }
