@@ -10,4 +10,6 @@ yarn-error.log*
 *.local
 .env.local
 .env
+.cursor/debug*.log
 supabase/.temp/
+.DS_Store

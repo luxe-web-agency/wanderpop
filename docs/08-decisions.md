@@ -94,7 +94,7 @@ This document records product and technical decisions that should guide implemen
 
 - Firebase for analytics.
 - Retention is the most important early signal.
-- Analytics should be added from day one.
+- Analytics should be added before MVP testing, but not at the expense of finishing the core guest and quiz flows first.
 
 ### Push Notifications
 

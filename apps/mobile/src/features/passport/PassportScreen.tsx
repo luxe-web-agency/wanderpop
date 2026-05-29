@@ -5,7 +5,13 @@ import { Button } from '../../components/Button';
 import { Screen } from '../../components/Screen';
 import { theme } from '../../styles/theme';
 
-const placeholderSlots = ['Seoul', 'Kyoto', 'Bangkok', 'Lisbon', 'Mexico City'];
+const placeholderSlots = [
+  { challengeId: 'placeholder-seoul', city: 'Seoul' },
+  { challengeId: 'placeholder-kyoto', city: 'Kyoto' },
+  { challengeId: 'placeholder-bangkok', city: 'Bangkok' },
+  { challengeId: 'placeholder-lisbon', city: 'Lisbon' },
+  { challengeId: 'placeholder-mexico-city', city: 'Mexico City' },
+];
 
 export default function PassportScreen() {
   return (
@@ -13,30 +19,31 @@ export default function PassportScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Season Passport</Text>
         <Text style={styles.body}>
-          Placeholder slots show where collected, perfect, missed, and upcoming cities
-          will appear.
+          Placeholder slots show the future layout for collected, perfect, missed, and
+          upcoming cities.
         </Text>
       </View>
 
       <View style={styles.grid}>
-        {placeholderSlots.map((city) => (
+        {placeholderSlots.map((slot) => (
           <Pressable
             accessibilityRole="button"
-            key={city}
+            key={slot.challengeId}
             onPress={() =>
-              router.push(
-                `/passport/${city.toLowerCase().replaceAll(' ', '-')}` as never,
-              )
+              router.push({
+                pathname: '/passport/[challengeId]',
+                params: { challengeId: slot.challengeId },
+              })
             }
             style={styles.slot}
           >
             <Text style={styles.stamp}>◎</Text>
-            <Text style={styles.city}>{city}</Text>
+            <Text style={styles.city}>{slot.city}</Text>
           </Pressable>
         ))}
       </View>
 
-      <Button variant="secondary" onPress={() => router.push('/home' as never)}>
+      <Button variant="secondary" onPress={() => router.push('/home')}>
         Back to Home
       </Button>
     </Screen>

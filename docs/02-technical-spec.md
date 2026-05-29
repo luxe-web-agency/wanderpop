@@ -78,21 +78,27 @@ wanderpop/
   apps/
     mobile/
       app/
+        _layout.tsx
+        index.tsx
+        home.tsx
+        quiz.tsx
+        quiz-complete.tsx
+        account.tsx
+        passport/
+          index.tsx
+          [challengeId].tsx
       src/
         components/
         features/
         lib/
-        navigation/
-        screens/
+        providers/
         services/
         styles/
-        types/
 
   packages/
     shared/
       src/
         constants/
-        schemas/
         types/
         utils/
 
@@ -116,54 +122,50 @@ wanderpop/
 
 ## 4. Mobile App Architecture
 
-Recommended structure inside `apps/mobile/src`:
+Current structure inside `apps/mobile`:
 
 ```txt
-src/
-  app/
-    AppProvider.tsx
+app/
+  _layout.tsx
+  index.tsx
+  home.tsx
+  quiz.tsx
+  quiz-complete.tsx
+  account.tsx
+  passport/
+    index.tsx
+    [challengeId].tsx
 
+src/
   components/
     Button.tsx
-    Card.tsx
     Screen.tsx
-    StampCard.tsx
 
   features/
     account/
       AccountScreen.tsx
-      SaveProgressPrompt.tsx
 
     home/
       HomeScreen.tsx
-      useTodayChallenge.ts
 
     passport/
       PassportScreen.tsx
-      PassportGrid.tsx
       StampDetailScreen.tsx
 
     quiz/
       QuizScreen.tsx
       QuizCompleteScreen.tsx
-      QuestionCard.tsx
-      AnswerOption.tsx
-      useQuizAttempt.ts
 
     welcome/
       WelcomeScreen.tsx
 
   lib/
     supabase.ts
-    firebase.ts
-    date.ts
 
-  navigation/
-    RootNavigator.tsx
-    routes.ts
+  providers/
+    AppProvider.tsx
 
   services/
-    analytics.ts
     auth.ts
     challenges.ts
     quiz.ts
@@ -171,10 +173,14 @@ src/
 
   styles/
     theme.ts
-
-  types/
-    navigation.ts
 ```
+
+Notes:
+
+- Expo Router owns route files in `app/`.
+- Route files should stay thin and delegate UI to `src/features/`.
+- App-wide bootstrap and context live in `src/providers/`.
+- Additional hooks, analytics wrappers, and shared components can be added later as the relevant phases are implemented.
 
 ## 5. Navigation
 
@@ -200,7 +206,12 @@ Recommended navigation behavior:
 - Passport routes to StampDetail.
 - Account handles save-progress/sign-in flows.
 
-The app should support deepening navigation later, but MVP can use a simple stack.
+Implementation notes:
+
+- Use Expo Router file-based routes rather than a custom `navigation/` directory.
+- Keep the shared stack configuration in `app/_layout.tsx`.
+- Prefer typed route helpers over broad casting when navigating between screens.
+- The app should support deeper navigation later, but the current shell can remain a simple stack.
 
 ## 6. Backend Architecture
 
@@ -345,7 +356,7 @@ Recommended MVP behavior:
 
 ## 11. Firebase Analytics
 
-Use Firebase for analytics from day one.
+Firebase analytics is planned for a later MVP phase, after the guest flow and core quiz loop are stable enough to instrument cleanly.
 
 Recommended also:
 

@@ -12,17 +12,17 @@ export default function HomeScreen() {
         <Text style={styles.label}>Today&apos;s city</Text>
         <Text style={styles.title}>Placeholder City</Text>
         <Text style={styles.body}>
-          This will show the backend-controlled daily city once Supabase is added in a
-          later phase.
+          Supabase wiring and guest bootstrap are in place. This card will switch to the
+          backend-controlled daily city once the challenge read flow is connected.
         </Text>
       </View>
 
       <View style={styles.actions}>
-        <Button onPress={() => router.push('/quiz' as never)}>Start Quiz</Button>
-        <Button variant="secondary" onPress={() => router.push('/passport' as never)}>
-          View Passport
+        <Button onPress={() => router.push('/quiz')}>Open Quiz Shell</Button>
+        <Button variant="secondary" onPress={() => router.push('/passport')}>
+          Open Passport Shell
         </Button>
-        <Button variant="secondary" onPress={() => router.push('/account' as never)}>
+        <Button variant="secondary" onPress={() => router.push('/account')}>
           Account
         </Button>
       </View>

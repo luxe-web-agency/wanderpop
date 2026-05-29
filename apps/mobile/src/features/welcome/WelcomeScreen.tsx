@@ -15,14 +15,14 @@ export default function WelcomeScreen() {
         <Text style={styles.eyebrow}>Daily travel trivia</Text>
         <Text style={styles.title}>{APP_NAME}</Text>
         <Text style={styles.body}>
-          Discover one city each day, answer a quick quiz, and collect stamps in your
-          seasonal passport.
+          Review the current mobile shell, guest session bootstrap, and placeholder quiz
+          flow without needing to sign in first.
         </Text>
       </View>
 
       <View style={styles.actions}>
-        <Button onPress={() => router.push('/home' as never)}>Go to Home</Button>
-        <Text style={styles.meta}>Phase 1 placeholder · {environment}</Text>
+        <Button onPress={() => router.push('/home')}>Enter App</Button>
+        <Text style={styles.meta}>Shell checkpoint · {environment}</Text>
       </View>
     </Screen>
   );

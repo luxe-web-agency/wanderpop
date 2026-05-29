@@ -14,6 +14,7 @@ import {
 
 const rootDir = process.cwd();
 const contentDir = resolve(rootDir, 'content');
+const envPath = resolve(rootDir, '.env');
 const localEnvPath = resolve(rootDir, '.env.local');
 
 const isDryRun = process.argv.includes('--dry-run');
@@ -77,6 +78,7 @@ function loadEnvFile(path: string) {
 
 async function main() {
   loadEnvFile(localEnvPath);
+  loadEnvFile(envPath);
 
   const files = {
     seasons: await readCsv<SeasonCsvRow>(resolve(contentDir, 'seasons.csv')),

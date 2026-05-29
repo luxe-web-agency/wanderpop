@@ -1,6 +1,6 @@
 # WanderPop Analytics Plan
 
-WanderPop should use Firebase Analytics from day one.
+WanderPop should add Firebase Analytics before MVP testing, once the guest flow and core quiz loop are stable enough to instrument cleanly.
 
 The early analytics goal is to understand retention, quiz completion, collection behavior, and account conversion.
 

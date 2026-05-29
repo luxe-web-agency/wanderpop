@@ -9,17 +9,18 @@ export default function QuizCompleteScreen() {
   return (
     <Screen>
       <View style={styles.card}>
-        <Text style={styles.badge}>Stamp earned</Text>
+        <Text style={styles.badge}>Result placeholder</Text>
         <Text style={styles.title}>Quiz Complete</Text>
         <Text style={styles.body}>
-          Later, this screen will show the backend-calculated score, City Stamp or
-          Perfect Stamp, and save-progress prompt.
+          This screen is reserved for backend-calculated score, stamp status, and the
+          save-progress prompt. The current shell should not imply that a stamp has
+          already been awarded.
         </Text>
       </View>
 
       <View style={styles.actions}>
-        <Button onPress={() => router.push('/passport' as never)}>View Passport</Button>
-        <Button variant="secondary" onPress={() => router.push('/home' as never)}>
+        <Button onPress={() => router.push('/passport')}>View Passport Shell</Button>
+        <Button variant="secondary" onPress={() => router.push('/home')}>
           Back to Home
         </Button>
       </View>

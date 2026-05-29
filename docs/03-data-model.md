@@ -62,7 +62,7 @@ passport_slot_status:
 - perfect
 - missed
 
-auth_account_type:
+account_type:
 - guest
 - registered
 ```
@@ -78,7 +78,7 @@ Suggested columns:
 ```txt
 id uuid primary key references auth.users(id)
 display_name text nullable
-account_type text not null default 'guest'
+account_type account_type not null default 'guest'
 created_at timestamptz not null default now()
 updated_at timestamptz not null default now()
 last_seen_at timestamptz nullable
@@ -89,7 +89,9 @@ Notes:
 
 - `id` should match the Supabase Auth user ID.
 - Guest users should still have profile rows.
+- A private-schema trigger on `auth.users` should create the initial `profiles` and `user_streaks` rows automatically for guest sign-ins.
 - Account linking should preserve or merge progress.
+- `preferred_language` can stay in the schema for future use even though MVP remains English-first.
 
 ## 5. `seasons`
 

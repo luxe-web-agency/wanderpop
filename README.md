@@ -60,6 +60,14 @@ WanderPop’s MVP is a daily travel trivia experience:
 wanderpop/
   apps/
     mobile/                 # Expo app
+      app/                  # Expo Router routes
+      src/
+        components/
+        features/
+        lib/
+        providers/
+        services/
+        styles/
 
   packages/
     shared/                 # Shared TypeScript types, constants, utilities
@@ -95,23 +103,34 @@ wanderpop/
       wanderpop-project.mdc
 ```
 
+## Environment Notes
+
+- Expo reads `EXPO_PUBLIC_*` variables from `apps/mobile/.env` when you run the mobile app from `apps/mobile`.
+- The content import script reads root `.env.local` first, then falls back to root `.env`.
+- Client-side Supabase should use `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; `EXPO_PUBLIC_SUPABASE_ANON_KEY` is only kept as a legacy fallback.
+- Scripted/server-side Supabase should use `SUPABASE_SECRET_KEY`; `SUPABASE_SERVICE_ROLE_KEY` is only kept as a legacy fallback.
+
+## Common Commands
+
+- `npm install`
+- `npm run typecheck`
+- `npm run import -- --dry-run`
+- `npm run start --workspace @wanderpop/mobile`
+
 ## MVP Development Principle
 
 Keep the app delightful, the backend authoritative, and content editable without app updates.
 
 The mobile app should be responsible for presentation, navigation, local state, and calling backend actions. The backend should be responsible for validating game rules, determining today’s challenge, locking answers, awarding stamps, and updating streaks.
 
-## First Build Milestone
+## Current Checkpoint
 
-The first coding milestone should be the mobile app foundation only:
+The repo is currently beyond the initial shell setup and includes:
 
-- Expo app setup
-- TypeScript setup
-- Navigation shell
-- Placeholder screens
-- Basic folder structure
-- No real backend logic yet
-- No real auth yet
-- No real analytics yet
+- Expo Router mobile shell with placeholder feature screens
+- Shared types/constants package
+- Supabase schema, RLS, and content import pipeline
+- Guest session bootstrap in the mobile app
+- Placeholder service boundaries for challenge, quiz, and passport flows
 
-See `docs/05-build-plan.md` for the full phased build plan.
+Gameplay, analytics, and save-progress flows are still intentionally incomplete. See `docs/05-build-plan.md` for the phased implementation plan.

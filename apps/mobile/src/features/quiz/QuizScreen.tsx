@@ -12,8 +12,8 @@ export default function QuizScreen() {
         <Text style={styles.step}>Question 1 of 7</Text>
         <Text style={styles.title}>Which landmark will appear here?</Text>
         <Text style={styles.body}>
-          Real quiz questions, answer locking, scoring, and feedback arrive in later
-          phases.
+          This screen currently shows the quiz layout only. Question loading, answer
+          locking, scoring, and feedback still depend on backend quiz actions.
         </Text>
       </View>
 
@@ -24,8 +24,8 @@ export default function QuizScreen() {
         <Button variant="secondary" onPress={() => {}}>
           Placeholder Option B
         </Button>
-        <Button onPress={() => router.push('/quiz-complete' as never)}>
-          Complete Placeholder Quiz
+        <Button onPress={() => router.push('/quiz-complete')}>
+          Open Result Shell
         </Button>
       </View>
     </Screen>

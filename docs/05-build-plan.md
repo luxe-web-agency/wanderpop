@@ -132,7 +132,7 @@ Add the database foundation.
 
 ### Done When
 
-- Local Supabase can run migrations.
+- Migrations can run through the documented Supabase workflow.
 - Schema matches `docs/03-data-model.md`.
 - Basic seed data can be inserted.
 - Data constraints prevent obvious invalid states.
@@ -175,6 +175,7 @@ Connect the Expo app to Supabase safely.
 
 - Add Supabase client setup.
 - Add environment variable pattern.
+- Document Expo app env separately from import-script env.
 - Add typed config.
 - Add service layer stubs:
   - `challenges.ts`
@@ -335,7 +336,7 @@ Prompt guest users to save progress after meaningful moments.
 
 ### Goal
 
-Track core retention and funnel events.
+Track core retention and funnel events once the guest flow and core quiz loop are stable.
 
 ### Scope
 

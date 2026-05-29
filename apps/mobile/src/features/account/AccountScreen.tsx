@@ -14,8 +14,9 @@ export default function AccountScreen() {
       <View style={styles.card}>
         <Text style={styles.title}>Account</Text>
         <Text style={styles.body}>
-          You are currently playing as a guest. Your progress is tied to a silent
-          device session until save-progress sign-in is added in a later phase.
+          You are currently using a guest session. Save-progress sign-in and merge flows
+          are intentionally not wired up yet, but this session confirms the guest
+          bootstrap is working.
         </Text>
         <View style={styles.metaGroup}>
           <Text style={styles.metaLabel}>Account type</Text>
@@ -29,7 +30,7 @@ export default function AccountScreen() {
         </View>
       </View>
 
-      <Button variant="secondary" onPress={() => router.push('/home' as never)}>
+      <Button variant="secondary" onPress={() => router.push('/home')}>
         Back to Home
       </Button>
     </Screen>
