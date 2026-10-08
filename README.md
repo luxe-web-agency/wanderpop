@@ -1,5 +1,8 @@
 # WanderPop
 
+<img width="1672" height="941" alt="WanderPop-UI" src="https://github.com/user-attachments/assets/de84b2b9-d7ff-45a7-a2b4-1c28a88023a9" />
+
+
 WanderPop is a native-feeling iOS and Android travel trivia app where users complete a daily city quiz, earn collectible city stamps, and build a seasonal travel passport.
 
 This repo is intended to be built as a lean MVP first, while preserving the technical foundations needed for future features like paid city packs, missed-city unlocks, account syncing, multilingual content, push notifications, and richer passport mechanics.
